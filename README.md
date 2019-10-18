@@ -5,7 +5,7 @@ O teste consiste em construir uma aplicação nativa Android de um pseudo ecomme
 ### Recursos
 - Siga o layout: [Layout Android](https://xd.adobe.com/spec/08671ee9-a138-4eda-4ac3-58128100283a-7e56/)
 - Documentação da api no arquivo [api.md](docs/api.md)
-- Imagens disponiveis na pasta [images/assets-android](images/assets-android/)
+- Imagens disponiveis na pasta [images.zip](images/assets-android/)
 
 ### Escopo
 - Faça um fork deste repositório e faça as alterações no projeto já iniciado
