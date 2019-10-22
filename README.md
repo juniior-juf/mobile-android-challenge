@@ -30,7 +30,6 @@ Faça um pull request para este repositório com o código a ser avaliado
 
 ##### Recomendações
 * Crie um código escalável
-* Siga a arquitetura proposta, a menos que traga um ganho considerável
 * Versione como se estivesse trabalhando em equipe
 * Descreva em um `README.md` o que você fez de interessante, a arquitetura que usou, lista de bibliotecas que usou e as dificuldades encontradas no desenvolvimento da aplicação(Se não consegui terminar em tempo hábil, aproveite este espaço para fazer um checklist do que está faltando)
 * Preze pela qualidade, se faltar tempo para terminar o teste, faça uma lista de pendências
