@@ -3,17 +3,24 @@
 O teste consiste em construir uma aplicação nativa Android de um pseudo ecommerce de games.
 
 ### Recursos
-- Siga o layout: [Layout Android](https://xd.adobe.com/spec/08671ee9-a138-4eda-4ac3-58128100283a-7e56/)
+- Siga o layout: [Layout Android](https://github.com/ConsultaRemedios/mobile-android-challenge/raw/master/Layout.sketch)
 - Documentação da api no arquivo [api.md](api.md)
-- Imagens disponiveis na pasta [images.zip](https://github.com/ConsultaRemedios/mobile-android-challenge/raw/master/images.zip)
 
 ### Escopo
 - Faça um fork deste repositório e faça as alterações no projeto já iniciado
+- Os banners devem ser carregados automaticamente ao entrar no aplicativo, os banners devem vir da API
 - A lista de jogos deve ser carregada automaticamente ao entrar no aplicativo, jogos devem vir da API
-- Ao clicar em algum item da lista, ir para tela de detalhes
-- O carrinho de compra deve exibir todos os itens adicionados.
-- Cada produto adicionado no carrinho, soma R$:10,00 ao frete total.
-- O frete deve se tornar grátis quando a soma de todos os produtos do carrinho for acima de R$:250,00.
+- Ao clicar na pesquisa, qualquer termo deve ser aceito para iniciar a busca e os resultados devem vir da API
+- Ao clicar em algum banner, a url associada ao mesmo deve ser exibida internamente no app
+- Ao clicar em algum game, o usuário deve ser levado a tela de detalhamento do mesmo
+- No detlhamento do game, deve ser possivel adicionar o mesmo ao carrinho clicando no botao do carrinho
+- Caso o produto ja esteja adicionado ao carrinho, o botao de adicionar deve ganhar a ação de remover
+- Na home o ícone do carrinho deve ser flutuante e deve refletir a quantidade de produtos associados ao mesmo
+- O carrinho de compra deve exibir todos os itens adicionados
+- Cada produto adicionado no carrinho, soma R$10,00 ao frete total
+- O frete deve se tornar grátis quando a soma de todos os produtos do carrinho for acima de R$250,00
+- Deve ser possível remover produtos do carrinho
+- Ao clicar em finalizar compra deve haver a validação com a API
 
 ### O que iremos avaliar...
 - Funcionamento do aplicativo(ele não pode quebrar)
