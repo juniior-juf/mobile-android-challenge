@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mobile Challenge</string>
+
+    <string name="hello_main_activity">Hello main activity</string>
+</resources>
