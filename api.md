@@ -1,26 +1,40 @@
 
 # API
 Para acessar API de teste use os dados:
-- Base url: `https://game-checkout.herokuapp.com`
-- Para validação envie um header `Token` com a o valor `QceNFo1gHd09MJDzyswNqzStlxYGBzUG`
+- Base url: `https://api-mobile-test.herokuapp.com/api/`
 
 ### Serviços
-##### [GET]/game
-Retorna a lista de jogos da loja
+##### [GET]/banners
+Retorna a lista de banners
 ```
-curl -X GET https://game-checkout.herokuapp.com/game  -H 'TOKEN: QceNFo1gHd09MJDzyswNqzStlxYGBzUG' 
+curl -X GET https://api-mobile-test.herokuapp.com/api/banners
 ```
 
-##### [GET]/game/{id}
-Retorna o jogo baseado no {id}
+##### [GET]/spotlight
+Retorna a lista de games que deve ser apresentado na home
 
 ```
-curl -X GET https://game-checkout.herokuapp.com/game/312 -H 'TOKEN: QceNFo1gHd09MJDzyswNqzStlxYGBzUG'
+curl -X GET https://api-mobile-test.herokuapp.com/api/spotlight
+```
+
+##### [GET]/game/:id
+Retorna o detalhamento de um game especifico
+
+```
+curl -X GET https://api-mobile-test.herokuapp.com/api/games/1
+```
+
+
+##### [GET]/game/search?term=a
+Retorna a lista de games que tem em parte de seu título o termo informado
+
+```
+curl -X GET https://api-mobile-test.herokuapp.com/api/games/search?term=a
 ```
 
 ##### [POST]/checkout
 Finaliza a compra. Para fins de teste, esse serviço não precisa receber nenhum valor, entretanto, existe uma pequena chance do serviço retornar `ERROR 400`
 
 ```
-curl -X POST https://game-checkout.herokuapp.com/checkout -H 'TOKEN: QceNFo1gHd09MJDzyswNqzStlxYGBzUG'
+curl -X POST https://api-mobile-test.herokuapp.com/api/checkout
 ```
