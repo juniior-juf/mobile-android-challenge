@@ -24,7 +24,7 @@ O teste consiste em construir uma aplicação nativa Android de um pseudo ecomme
 
 ### O que iremos avaliar...
 - Funcionamento do aplicativo(ele não pode quebrar)
-- Como você trabalhou em um projeto que já esta em andamento, se manteve a arquitetura, as melhorias propostas e como implementou novas funcionalidades
+- Como você planejou a arquitetura como implementou novas funcionalidades
 - Layout(Usabilidade e se fez conforme escopo)
 - O Código(Domínio da linguagem, estrutura, uso de boas práticas, Legibilidade e Lint)
 - Uso do git e github(iremos olhar os commits; branches; pull request. Recomendado uso do gitflow)
