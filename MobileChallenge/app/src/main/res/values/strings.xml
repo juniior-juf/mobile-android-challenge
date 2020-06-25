@@ -4,4 +4,6 @@
     <string name="hello_main_activity">Hello main activity</string>
     <string name="search">Pesquisar</string>
 
+    <string name="description">Imagem do game</string>
+
 </resources>
