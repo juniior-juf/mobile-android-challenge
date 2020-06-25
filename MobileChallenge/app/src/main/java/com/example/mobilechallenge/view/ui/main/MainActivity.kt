@@ -17,6 +17,7 @@ import com.example.mobilechallenge.view.adapters.GameAdapter
 import com.example.mobilechallenge.view.adapters.HandlerAdapter
 import com.example.mobilechallenge.view.factory.MainFactory
 import com.example.mobilechallenge.view.ui.browser.BrowserActivity
+import com.example.mobilechallenge.view.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
                 startActivity(intent)
             }
             R.id.card_game -> {
-                Toast.makeText(this, "Game", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, DetailActivity::class.java))
             }
             else -> Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show()
         }
