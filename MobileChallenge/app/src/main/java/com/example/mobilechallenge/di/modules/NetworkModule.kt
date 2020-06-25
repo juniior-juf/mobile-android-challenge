@@ -1,4 +1,4 @@
-package com.example.mobilechallenge.di
+package com.example.mobilechallenge.di.modules
 
 import com.example.mobilechallenge.data.remote.Api
 import com.google.gson.Gson
