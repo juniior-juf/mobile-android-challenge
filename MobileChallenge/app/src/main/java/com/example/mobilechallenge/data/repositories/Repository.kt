@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import com.example.mobilechallenge.data.local.dao.ItemCartDao
 import com.example.mobilechallenge.data.models.Banner
 import com.example.mobilechallenge.data.models.Game
+import com.example.mobilechallenge.data.models.ItemCart
 import com.example.mobilechallenge.data.remote.Api
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -53,6 +54,18 @@ class Repository(
             })
 
         composite.add(disposable)
+    }
+
+    suspend fun insertItemCart(itemCart: ItemCart) {
+        dao.insertItemCar(itemCart)
+    }
+
+    suspend fun deleteItemCart(itemCart: ItemCart) {
+        dao.deleteItemCart(itemCart)
+    }
+
+    suspend fun getItemCart(id: Int): ItemCart? {
+        return dao.getItemCart(id)
     }
 
     fun clearCompositeDisposable() {

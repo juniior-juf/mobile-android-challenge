@@ -13,5 +13,4 @@ class RepositoryModule {
     fun provideRepository(api: Api, dao: ItemCartDao): Repository {
         return Repository(api, dao)
     }
-
 }

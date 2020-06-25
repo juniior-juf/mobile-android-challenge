@@ -18,16 +18,21 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:contentScrim="@color/colorPrimary">
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="278dp">
+                    android:layout_height="278dp"
+                    android:fitsSystemWindows="true">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -53,8 +58,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|bottom"
                         android:layout_marginEnd="20dp"
-                        app:backgroundTint="@color/colorWhite"
-                        app:srcCompat="@drawable/ic_cart" />
+                        android:onClick="@{() -> viewModel.insertOrDeleteItem()}"
+                        app:elevation="2dp"
+                        app:type="@{viewModel.inCart}" />
                 </FrameLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

@@ -1,8 +1,8 @@
 package com.example.mobilechallenge.di.modules
 
+import android.app.Application
 import androidx.annotation.NonNull
 import androidx.room.Room
-import com.example.mobilechallenge.MyApplication
 import com.example.mobilechallenge.data.local.DatabaseLocal
 import com.example.mobilechallenge.data.local.dao.ItemCartDao
 import dagger.Module
@@ -10,7 +10,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule(@NonNull application: MyApplication) {
+class DatabaseModule(@NonNull application: Application) {
 
     companion object {
         private const val DB_NAME = "mobile_challenge_db"

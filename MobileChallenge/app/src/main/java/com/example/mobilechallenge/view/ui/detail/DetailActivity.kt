@@ -20,7 +20,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (applicationContext as MyApplication).getAppComponent().inject(this)
+        MyApplication.getAppComponent().inject(this)
 
         val id = intent?.extras?.get("id") as Int
 

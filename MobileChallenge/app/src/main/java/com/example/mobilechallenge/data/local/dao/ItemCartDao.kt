@@ -13,7 +13,7 @@ interface ItemCartDao {
     suspend fun insertItemCar(itemCart: ItemCart)
 
     @Query("SELECT * FROM items_cart_table WHERE id=:id")
-    suspend fun getItemCart(id: Int): ItemCart
+    suspend fun getItemCart(id: Int): ItemCart?
 
     @Query("SELECT * FROM items_cart_table")
     fun getAllItemsCart(): List<ItemCart>

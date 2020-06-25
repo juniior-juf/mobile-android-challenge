@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        (applicationContext as MyApplication).getAppComponent().inject(this)
+        MyApplication.getAppComponent().inject(this)
 
         initViewModel()
         initBannerAdapter()
