@@ -1,7 +1,7 @@
 package com.example.mobilechallenge.di.modules
 
 import com.example.mobilechallenge.data.remote.Api
-import com.example.mobilechallenge.data.repositories.BannerRepository
+import com.example.mobilechallenge.data.repositories.Repository
 import dagger.Module
 import dagger.Provides
 
@@ -9,8 +9,8 @@ import dagger.Provides
 class RepositoryModule {
 
     @Provides
-    fun provideBannerRepository(api: Api): BannerRepository {
-        return BannerRepository(api)
+    fun provideBannerRepository(api: Api): Repository {
+        return Repository(api)
     }
 
 }

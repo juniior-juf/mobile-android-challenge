@@ -1,27 +1,38 @@
 package com.example.mobilechallenge.view.ui.main
 
-import android.util.Log
 import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mobilechallenge.data.models.Banner
-import com.example.mobilechallenge.data.repositories.BannerRepository
+import com.example.mobilechallenge.data.models.Game
+import com.example.mobilechallenge.data.repositories.Repository
 
-class MainViewModel(@NonNull private val repoBanner: BannerRepository) : ViewModel() {
+class MainViewModel(@NonNull private val repo: Repository) : ViewModel() {
 
     private var banners = MutableLiveData<List<Banner>>()
+    private var games = MutableLiveData<List<Game>>()
 
     init {
         banners.value = emptyList()
         fetchAllBanners()
+        fetchAllGames()
     }
 
     fun getBanners() = banners
 
+    fun getGames() = games
+
     private fun fetchAllBanners() {
-        repoBanner.getBanners({ res ->
-            Log.d("JUF", "Success ${res.size}")
+        repo.getBanners({ res ->
             banners.value = res
+        }, { error ->
+            error.printStackTrace()
+        })
+    }
+
+    private fun fetchAllGames() {
+        repo.getGames({ res ->
+            games.value = res
         }, { error ->
             error.printStackTrace()
         })

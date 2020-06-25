@@ -1,7 +1,6 @@
 package com.example.mobilechallenge.di.modules
 
-import com.example.mobilechallenge.data.remote.Api
-import com.example.mobilechallenge.data.repositories.BannerRepository
+import com.example.mobilechallenge.data.repositories.Repository
 import com.example.mobilechallenge.view.factory.MainFactory
 import dagger.Module
 import dagger.Provides
@@ -10,7 +9,7 @@ import dagger.Provides
 class FactoryModule {
 
     @Provides
-    fun provideBannerFactory(repository: BannerRepository): MainFactory {
+    fun provideBannerFactory(repository: Repository): MainFactory {
         return MainFactory(repository)
     }
 
