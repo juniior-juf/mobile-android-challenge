@@ -31,7 +31,7 @@ class MainViewModel(@NonNull private val repo: Repository) : ViewModel() {
     }
 
     private fun fetchAllGames() {
-        repo.getGames({ res ->
+        repo.getAllGames({ res ->
             games.value = res
         }, { error ->
             error.printStackTrace()

@@ -1,16 +1,17 @@
 package com.example.mobilechallenge.di.modules
 
+import com.example.mobilechallenge.data.local.dao.ItemCartDao
 import com.example.mobilechallenge.data.remote.Api
 import com.example.mobilechallenge.data.repositories.Repository
 import dagger.Module
 import dagger.Provides
 
-@Module(includes = [NetworkModule::class])
+@Module(includes = [NetworkModule::class, DatabaseModule::class])
 class RepositoryModule {
 
     @Provides
-    fun provideBannerRepository(api: Api): Repository {
-        return Repository(api)
+    fun provideRepository(api: Api, dao: ItemCartDao): Repository {
+        return Repository(api, dao)
     }
 
 }

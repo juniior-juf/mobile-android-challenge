@@ -9,13 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilechallenge.MyApplication
 import com.example.mobilechallenge.R
 import com.example.mobilechallenge.view.adapters.BannerAdapter
 import com.example.mobilechallenge.view.adapters.GameAdapter
 import com.example.mobilechallenge.view.adapters.HandlerAdapter
-import com.example.mobilechallenge.view.factory.MainFactory
+import com.example.mobilechallenge.view.factory.DefaultFactory
 import com.example.mobilechallenge.view.ui.browser.BrowserActivity
 import com.example.mobilechallenge.view.ui.detail.DetailActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,7 +23,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
 
     @Inject
-    lateinit var factory: MainFactory
+    lateinit var factory: DefaultFactory
     lateinit var viewModel: MainViewModel
     private lateinit var bannerAdapter: BannerAdapter
     private lateinit var gameAdapter: GameAdapter
@@ -91,7 +90,9 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
                 startActivity(intent)
             }
             R.id.card_game -> {
-                startActivity(Intent(this, DetailActivity::class.java))
+                val intent = Intent(this, DetailActivity::class.java)
+                intent.putExtra("id", viewModel.getGames().value?.get(position)?.id)
+                startActivity(intent)
             }
             else -> Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show()
         }

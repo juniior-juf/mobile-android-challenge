@@ -22,12 +22,13 @@ class DataBindingAdapter {
         @JvmStatic
         @BindingAdapter("loadImage")
         fun loadImage(view: ImageView, url: String?) {
-            Picasso.get()
-                .load(url)
-                .fit()
-                .centerCrop()
-                .placeholder(R.drawable.ic_image)
-                .into(view)
+            if (url?.isNotEmpty()!!)
+                Picasso.get()
+                    .load(url)
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_image)
+                    .into(view)
         }
 
         @SuppressLint("SetTextI18n")
