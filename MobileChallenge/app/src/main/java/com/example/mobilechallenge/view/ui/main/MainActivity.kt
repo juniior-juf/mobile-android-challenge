@@ -85,7 +85,9 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
     override fun onClickItem(view: View, position: Int) {
         when (view.id) {
             R.id.card_banner -> {
-               startActivity(Intent(this, BrowserActivity::class.java))
+                val intent = Intent(this, BrowserActivity::class.java)
+                intent.putExtra("url", viewModel.getBanners().value?.get(position)?.url)
+                startActivity(intent)
             }
             R.id.card_game -> {
                 Toast.makeText(this, "Game", Toast.LENGTH_SHORT).show()
