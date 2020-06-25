@@ -1,6 +1,7 @@
 package com.example.mobilechallenge.view.ui.main
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -15,6 +16,7 @@ import com.example.mobilechallenge.view.adapters.BannerAdapter
 import com.example.mobilechallenge.view.adapters.GameAdapter
 import com.example.mobilechallenge.view.adapters.HandlerAdapter
 import com.example.mobilechallenge.view.factory.MainFactory
+import com.example.mobilechallenge.view.ui.browser.BrowserActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -83,7 +85,7 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
     override fun onClickItem(view: View, position: Int) {
         when (view.id) {
             R.id.card_banner -> {
-                Toast.makeText(this, "Banner", Toast.LENGTH_SHORT).show()
+               startActivity(Intent(this, BrowserActivity::class.java))
             }
             R.id.card_game -> {
                 Toast.makeText(this, "Game", Toast.LENGTH_SHORT).show()
