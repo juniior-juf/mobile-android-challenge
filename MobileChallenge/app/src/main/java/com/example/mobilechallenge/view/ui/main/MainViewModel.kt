@@ -11,9 +11,11 @@ class MainViewModel(@NonNull private val repo: Repository) : ViewModel() {
 
     private var banners = MutableLiveData<List<Banner>>()
     private var games = MutableLiveData<List<Game>>()
+    private var countItemsInCart = repo.getAllItemsCart()
 
     init {
         banners.value = emptyList()
+        games.value = emptyList()
         fetchAllBanners()
         fetchAllGames()
     }
@@ -22,15 +24,17 @@ class MainViewModel(@NonNull private val repo: Repository) : ViewModel() {
 
     fun getGames() = games
 
-    private fun fetchAllBanners() {
-        repo.getBanners({ res ->
+    fun getCountItemsInCart() = countItemsInCart
+
+    fun fetchAllBanners() {
+        repo.getAllBanners({ res ->
             banners.value = res
         }, { error ->
             error.printStackTrace()
         })
     }
 
-    private fun fetchAllGames() {
+    fun fetchAllGames() {
         repo.getAllGames({ res ->
             games.value = res
         }, { error ->

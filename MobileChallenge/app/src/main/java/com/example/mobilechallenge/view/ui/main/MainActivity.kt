@@ -77,6 +77,15 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
             bannerAdapter.setItemList(banners)
         })
 
+        viewModel.getCountItemsInCart().observe(this, Observer { itemsCart ->
+            if (itemsCart.isEmpty()) {
+                text_count.visibility = View.GONE
+            } else {
+                text_count.text = itemsCart.size.toString()
+                text_count.visibility = View.VISIBLE
+            }
+        })
+
         viewModel.getGames().observe(this, Observer { games ->
             gameAdapter.setItemList(games)
         })
