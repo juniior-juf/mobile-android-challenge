@@ -2,7 +2,7 @@ package com.example.mobilechallenge.di.modules
 
 import com.example.mobilechallenge.data.local.dao.ItemCartDao
 import com.example.mobilechallenge.data.remote.Api
-import com.example.mobilechallenge.data.repositories.Repository
+import com.example.mobilechallenge.data.repositories.RepositoryImpl
 import dagger.Module
 import dagger.Provides
 
@@ -10,7 +10,7 @@ import dagger.Provides
 class RepositoryModule {
 
     @Provides
-    fun provideRepository(api: Api, dao: ItemCartDao): Repository {
-        return Repository(api, dao)
+    fun provideRepository(api: Api, dao: ItemCartDao): RepositoryImpl {
+        return RepositoryImpl(api, dao)
     }
 }

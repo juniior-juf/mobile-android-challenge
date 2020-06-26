@@ -1,17 +1,16 @@
 package com.example.mobilechallenge.view.ui.detail
 
 import android.database.sqlite.SQLiteConstraintException
-import android.util.Log
 import androidx.annotation.NonNull
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mobilechallenge.data.models.Game
 import com.example.mobilechallenge.data.models.ItemCart
-import com.example.mobilechallenge.data.repositories.Repository
+import com.example.mobilechallenge.data.repositories.RepositoryImpl
 import kotlinx.coroutines.launch
 
-class DetailViewModel(@NonNull private val repo: Repository) : ViewModel() {
+class DetailViewModel(@NonNull private val repo: RepositoryImpl) : ViewModel() {
 
     private val game = MutableLiveData<Game>()
     val inCart = MutableLiveData<Boolean>()

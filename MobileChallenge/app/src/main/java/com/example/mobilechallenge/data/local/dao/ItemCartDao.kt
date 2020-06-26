@@ -1,5 +1,6 @@
 package com.example.mobilechallenge.data.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -16,7 +17,10 @@ interface ItemCartDao {
     suspend fun getItemCart(id: Int): ItemCart?
 
     @Query("SELECT * FROM items_cart_table")
-    fun getAllItemsCart(): List<ItemCart>
+    fun getAllItemsCart(): LiveData<List<ItemCart>>
+
+    @Query("SELECT COUNT(id) FROM items_cart_table")
+    fun getCount(): LiveData<Int>
 
     @Delete
     suspend fun deleteItemCart(itemCart: ItemCart)
