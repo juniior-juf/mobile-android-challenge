@@ -13,6 +13,9 @@ interface ItemCartDao {
     @Insert
     suspend fun insertItemCar(itemCart: ItemCart)
 
+    @Query("UPDATE items_cart_table SET amount=:amount WHERE id=:id")
+    suspend fun updateAmountItems(amount: Int, id: Int)
+
     @Query("SELECT * FROM items_cart_table WHERE id=:id")
     suspend fun getItemCart(id: Int): ItemCart?
 

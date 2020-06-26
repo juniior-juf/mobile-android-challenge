@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.mobilechallenge.data.repositories.RepositoryImpl
 import com.example.mobilechallenge.view.ui.detail.DetailViewModel
 import com.example.mobilechallenge.view.ui.main.MainViewModel
+import com.example.mobilechallenge.view.ui.shopping_cart.ShoppingCarViewModel
 import java.lang.IllegalArgumentException
 
 class DefaultFactory(@NonNull private val repositoryImpl: RepositoryImpl) :
@@ -19,6 +20,10 @@ class DefaultFactory(@NonNull private val repositoryImpl: RepositoryImpl) :
 
                 isAssignableFrom(DetailViewModel::class.java) -> {
                     DetailViewModel(repositoryImpl)
+                }
+
+                isAssignableFrom(ShoppingCarViewModel::class.java) -> {
+                    ShoppingCarViewModel(repositoryImpl)
                 }
                 else -> throw IllegalArgumentException("Unknown class")
             }

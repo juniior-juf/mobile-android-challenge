@@ -61,6 +61,10 @@ class RepositoryImpl(
         dao.insertItemCar(itemCart)
     }
 
+    override suspend fun updateItemCart(amount: Int, id: Int) {
+        dao.updateAmountItems(amount, id)
+    }
+
     override suspend fun deleteItemCart(itemCart: ItemCart) {
         dao.deleteItemCart(itemCart)
     }

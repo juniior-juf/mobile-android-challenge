@@ -109,6 +109,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/imv_remove"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp"
@@ -139,7 +140,7 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        app:currency="@{obj.price - obj.discount}"
+                        app:currency="@{obj.amount * (obj.price - obj.discount)}"
                         tools:text="R$ 200,00" />
                 </LinearLayout>
             </LinearLayout>

@@ -15,6 +15,8 @@ interface Repository {
 
     suspend fun insertItemCart(itemCart: ItemCart)
 
+    suspend fun updateItemCart(amount: Int, id: Int)
+
     suspend fun deleteItemCart(itemCart: ItemCart)
 
     suspend fun getItemCart(id: Int): ItemCart?

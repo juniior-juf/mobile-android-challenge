@@ -8,6 +8,7 @@ import com.example.mobilechallenge.di.modules.FactoryModule
 import com.example.mobilechallenge.view.adapters.DataBindingAdapter
 import com.example.mobilechallenge.view.ui.detail.DetailActivity
 import com.example.mobilechallenge.view.ui.main.MainActivity
+import com.example.mobilechallenge.view.ui.shopping_cart.ShoppingCartActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -24,5 +25,7 @@ interface ApplicationComponent {
     fun inject(activity: MainActivity)
 
     fun inject(activity: DetailActivity)
+
+    fun inject(activity: ShoppingCartActivity)
 
 }
