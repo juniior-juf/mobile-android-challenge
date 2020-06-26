@@ -7,16 +7,19 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mobilechallenge.MyApplication
 import com.example.mobilechallenge.R
+import com.example.mobilechallenge.databinding.ActivityMainBinding
 import com.example.mobilechallenge.view.adapters.BannerAdapter
 import com.example.mobilechallenge.view.adapters.GameAdapter
 import com.example.mobilechallenge.view.adapters.HandlerAdapter
 import com.example.mobilechallenge.view.factory.DefaultFactory
 import com.example.mobilechallenge.view.ui.browser.BrowserActivity
 import com.example.mobilechallenge.view.ui.detail.DetailActivity
+import com.example.mobilechallenge.view.ui.shopping_cart.ShoppingCartActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -30,9 +33,9 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         MyApplication.getAppComponent().inject(this)
 
+        initDataBinding()
         initViewModel()
         initBannerAdapter()
         initGameAdapter()
@@ -40,6 +43,14 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
 
     override fun initViewModel() {
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+    }
+
+    fun initDataBinding() {
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(
+            this,
+            R.layout.activity_main
+        )
+        binding.listener = this
     }
 
     override fun initBannerAdapter() {
@@ -91,19 +102,27 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         })
     }
 
+    override fun onClickCart() {
+        startActivity(Intent(this, ShoppingCartActivity::class.java))
+    }
+
     override fun onClickItem(view: View, position: Int) {
         when (view.id) {
-            R.id.card_banner -> {
-                val intent = Intent(this, BrowserActivity::class.java)
-                intent.putExtra("url", viewModel.getBanners().value?.get(position)?.url)
-                startActivity(intent)
-            }
-            R.id.card_game -> {
-                val intent = Intent(this, DetailActivity::class.java)
-                intent.putExtra("id", viewModel.getGames().value?.get(position)?.id)
-                startActivity(intent)
-            }
+            R.id.card_banner -> navigateToBrowserScreen(position)
+            R.id.card_game -> navigateToDetailScreen(position)
             else -> Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun navigateToBrowserScreen(position: Int) {
+        val intent = Intent(this, BrowserActivity::class.java)
+        intent.putExtra("url", viewModel.getBanners().value?.get(position)?.url)
+        startActivity(intent)
+    }
+
+    private fun navigateToDetailScreen(position: Int) {
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("id", viewModel.getGames().value?.get(position)?.id)
+        startActivity(intent)
     }
 }

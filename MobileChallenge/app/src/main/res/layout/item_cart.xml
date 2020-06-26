@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="obj"
+            type="com.example.mobilechallenge.data.models.ItemCart" />
+
+        <variable
+            name="handler"
+            type="com.example.mobilechallenge.view.adapters.HandlerAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBlack32"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="16dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="100dp"
+            android:layout_height="100dp">
+
+            <ImageView
+                loadImage=""
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_game"
+                app:loadImage="@{obj.image}" />
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{obj.title}"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Título" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/layout_add_remove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:background="@drawable/background_stroke_white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title">
+
+                    <ImageView
+                        android:id="@+id/imv_decrease"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:onClick="@{(view) -> handler.onClickItem(view, position)}"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_remove"
+                        android:tint="@color/colorWhite" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8sp"
+                        android:layout_marginEnd="8sp"
+                        android:text="@{obj.amount+``}"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp"
+                        tools:text="1" />
+
+                    <ImageView
+                        android:id="@+id/imv_add"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:onClick="@{(view) -> handler.onClickItem(view, position)}"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_add"
+                        android:tint="@color/colorWhite" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:onClick="@{(view) -> handler.onClickItem(view, position)}"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_delete"
+                    android:tint="@color/colorWhite"
+                    app:layout_constraintStart_toEndOf="@id/layout_add_remove"
+                    app:layout_constraintTop_toBottomOf="@id/title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="12sp"
+                        app:currencyStrike="@{obj.price}"
+                        tools:text="de R$ 250,00" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:currency="@{obj.price - obj.discount}"
+                        tools:text="R$ 200,00" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

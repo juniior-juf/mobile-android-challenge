@@ -13,10 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.ui.shopping_cart.ShoppingCartActivity"></activity>
+        <activity
+            android:name=".view.ui.shopping_cart.ShoppingCartActivity"
+            android:theme="@style/AppTheme.StatusBarBlue" />
         <activity
             android:name=".view.ui.detail.DetailActivity"
-            android:theme="@style/AppTheme.StatusTranslucent" />
+            android:theme="@style/AppTheme.StatusBarTranslucent" />
         <activity android:name=".view.ui.browser.BrowserActivity" />
         <activity
             android:name=".view.ui.main.MainActivity"

@@ -13,13 +13,17 @@
 
     </style>
 
-    <style name="AppTheme.StatusTranslucent" parent="AppTheme.NoActionBar">
+    <style name="AppTheme.StatusBarTranslucent" parent="AppTheme.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/colorWhite</item>
         <item name="colorControlActivated">@android:color/holo_orange_light</item>
+    </style>
+
+    <style name="AppTheme.StatusBarBlue" parent="AppTheme.NoActionBar">
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

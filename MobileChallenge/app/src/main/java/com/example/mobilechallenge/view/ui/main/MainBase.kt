@@ -10,4 +10,5 @@ interface MainBase {
 
     fun observableViewModel()
 
+    fun onClickCart()
 }
