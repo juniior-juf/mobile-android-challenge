@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mobilechallenge.data.models.ShoppingCart
 import com.example.mobilechallenge.data.repositories.Repository
+import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 
 class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() {
@@ -14,11 +15,16 @@ class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() 
         private const val PRICE_MINIMUM_FREIGHT_FREE = 250
     }
 
+    private lateinit var listener: ShoppingCartListener
     private val shoppingCart = MutableLiveData<ShoppingCart>()
     private val itemsCart = repo.getAllItemsCart()
 
     init {
         shoppingCart.value = ShoppingCart()
+    }
+
+    fun setListener(listener: ShoppingCartListener) {
+        this.listener = listener
     }
 
     fun getItemsCart() = itemsCart
@@ -45,6 +51,7 @@ class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() 
     }
 
     fun calculateShoppingCart() {
+
         var initialPrice = 0
         var finalPrice = 0
         var totalItems = 0
@@ -75,5 +82,28 @@ class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() 
 
     private fun calculatePriceFinal(amount: Int, price: Int, discount: Int): Int {
         return amount * (price - discount)
+    }
+
+    fun onClickCheckout() {
+        val data = JsonObject()
+        data.addProperty("data", "carrinho de compras")
+        checkout(data)
+    }
+
+    private fun checkout(data: JsonObject) {
+        listener.showProgressDialogCheckout()
+        repo.checkout(data, {
+            listener.successCheckout()
+            deleteAllItemsCart()
+        }, { error ->
+            error.printStackTrace()
+            listener.failedCheckout()
+        })
+    }
+
+    private fun deleteAllItemsCart() {
+        viewModelScope.launch {
+            repo.deleteAllItemsCart()
+        }
     }
 }

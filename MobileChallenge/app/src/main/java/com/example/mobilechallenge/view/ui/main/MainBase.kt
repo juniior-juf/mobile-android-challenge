@@ -4,6 +4,8 @@ interface MainBase {
 
     fun initViewModel()
 
+    fun initDataBinding()
+
     fun initBannerAdapter()
 
     fun initGameAdapter()

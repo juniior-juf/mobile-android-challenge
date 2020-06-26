@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.mobilechallenge.data.models.Banner
 import com.example.mobilechallenge.data.models.Game
 import com.example.mobilechallenge.data.models.ItemCart
+import com.google.gson.JsonObject
 
 interface Repository {
 
@@ -19,9 +20,15 @@ interface Repository {
 
     suspend fun deleteItemCart(itemCart: ItemCart)
 
+    suspend fun deleteAllItemsCart()
+
     suspend fun getItemCart(id: Int): ItemCart?
 
     fun getAllItemsCart(): LiveData<List<ItemCart>>
+
+    fun checkout(data: JsonObject, success: () -> Unit, failed: (Throwable) -> Unit)
+
+
 
     fun clearCompositeDisposable()
 }

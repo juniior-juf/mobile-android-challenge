@@ -58,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|bottom"
                         android:layout_marginEnd="20dp"
-                        android:onClick="@{() -> viewModel.insertOrDeleteItem()}"
+                        android:onClick="@{() -> viewModel.onClickInsertOrDeleteItem()}"
                         app:elevation="2dp"
                         app:type="@{viewModel.inCart}" />
                 </FrameLayout>

@@ -7,6 +7,7 @@ import com.example.mobilechallenge.data.models.Banner
 import com.example.mobilechallenge.data.models.Game
 import com.example.mobilechallenge.data.models.ItemCart
 import com.example.mobilechallenge.data.remote.Api
+import com.google.gson.JsonObject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -69,12 +70,28 @@ class RepositoryImpl(
         dao.deleteItemCart(itemCart)
     }
 
+    override suspend fun deleteAllItemsCart() {
+        dao.deleteAllItemsCart()
+    }
+
     override suspend fun getItemCart(id: Int): ItemCart? {
         return dao.getItemCart(id)
     }
 
     override fun getAllItemsCart(): LiveData<List<ItemCart>> {
         return dao.getAllItemsCart()
+    }
+
+    override fun checkout(data: JsonObject, success: () -> Unit, failed: (Throwable) -> Unit) {
+        val disposable = api.checkout(data)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                success()
+            }, { error ->
+                failed(error)
+            })
+        composite.add(disposable)
     }
 
     override fun clearCompositeDisposable() {

@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
     }
 
-    fun initDataBinding() {
+    override fun initDataBinding() {
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(
             this,
             R.layout.activity_main

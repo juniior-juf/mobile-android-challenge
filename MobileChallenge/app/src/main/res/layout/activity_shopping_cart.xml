@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.example.mobilechallenge.view.ui.shopping_cart.ShoppingCarViewModel" />
@@ -54,13 +56,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="20dp" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_items"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        android:layout_height="match_parent">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_items"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:overScrollMode="never"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                        <ImageView
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/ic_shopping_cart"
+                            android:tint="@color/colorPrimaryDark"
+                            android:visibility="@{viewModel.shoppingCart.finalPrice > 0 ? View.GONE : View.VISIBLE}" />
+
+                    </RelativeLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
 
@@ -136,7 +152,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16sp"
-                    android:background="@color/colorGreen"
+                    android:background="@{viewModel.shoppingCart.finalPrice > 0 ? @drawable/background_button_green : @drawable/background_button_gray }"
+                    android:enabled="@{viewModel.shoppingCart.finalPrice > 0 ? true : false}"
+                    android:onClick="@{() -> viewModel.onClickCheckout()}"
                     android:text="Finalizar compra"
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"

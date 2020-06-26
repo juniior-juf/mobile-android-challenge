@@ -35,11 +35,17 @@ class DetailViewModel(@NonNull private val repo: RepositoryImpl) : ViewModel() {
         })
     }
 
-    fun insertOrDeleteItem() {
-        val item = game.value?.let {
-            ItemCart(it.id, it.title, it.image, it.price, it.discount, 1)
-        } as ItemCart
+    fun onClickInsertOrDeleteItem() {
+        if (game.value!!.id != 0) {
+            val item = game.value?.let {
+                ItemCart(it.id, it.title, it.image, it.price, it.discount, 1)
+            } as ItemCart
 
+            insertOrDeleteItem(item)
+        }
+    }
+
+    private fun insertOrDeleteItem(item: ItemCart) {
         viewModelScope.launch {
             try {
                 repo.insertItemCart(item)

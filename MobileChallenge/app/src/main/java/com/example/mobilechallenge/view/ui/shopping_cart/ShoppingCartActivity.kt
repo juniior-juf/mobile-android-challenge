@@ -1,9 +1,15 @@
 package com.example.mobilechallenge.view.ui.shopping_cart
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,12 +22,13 @@ import com.example.mobilechallenge.view.factory.DefaultFactory
 import kotlinx.android.synthetic.main.activity_shopping_cart.*
 import javax.inject.Inject
 
-class ShoppingCartActivity : AppCompatActivity(), HandlerAdapter {
+class ShoppingCartActivity : AppCompatActivity(), ShoppingCartListener, HandlerAdapter {
 
     @Inject
     lateinit var factory: DefaultFactory
     private lateinit var viewModel: ShoppingCarViewModel
     private lateinit var adapter: ItemCartAdapter
+    private var dialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +44,7 @@ class ShoppingCartActivity : AppCompatActivity(), HandlerAdapter {
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(this, factory)[ShoppingCarViewModel::class.java]
+        viewModel.setListener(this)
     }
 
     private fun initDataBinding() {
@@ -87,5 +95,46 @@ class ShoppingCartActivity : AppCompatActivity(), HandlerAdapter {
             R.id.imv_decrease -> viewModel.decrease(position)
             R.id.imv_remove -> viewModel.removeItem(position)
         }
+    }
+
+    override fun showProgressDialogCheckout() {
+        val view = LayoutInflater.from(this).inflate(R.layout.container_progress, null)
+
+        val builder = AlertDialog.Builder(this)
+        builder.setView(view)
+        builder.setCancelable(false)
+
+        dialog = builder.create()
+        dialog?.show()
+    }
+
+    override fun successCheckout() {
+        dialog?.hide()
+        showDialogSuccessCheckout()
+    }
+
+    override fun showDialogSuccessCheckout() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Compra finalizada")
+        builder.setMessage("Sua compra foi finalizada com sucesso!")
+        builder.setPositiveButton("OK") { _, _ ->
+            dialog?.hide()
+            finish()
+        }
+
+        dialog = builder.create()
+        dialog?.show()
+
+        dialog?.getButton(DialogInterface.BUTTON_POSITIVE)
+            ?.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+    }
+
+    override fun failedCheckout() {
+        dialog?.hide()
+        Toast.makeText(
+            this,
+            "Ocorreu um problema durante a finalização da compra.\nTente novamente!",
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
