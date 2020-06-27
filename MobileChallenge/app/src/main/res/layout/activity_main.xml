@@ -5,109 +5,56 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="listener"
             type="com.example.mobilechallenge.view.ui.main.MainBase" />
+
+        <variable
+            name="viewModel"
+            type="com.example.mobilechallenge.view.ui.main.MainViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBlack32"
         tools:context=".view.ui.main.MainActivity">
+
+        <include
+            layout="@layout/container_layout_default"
+            app:listener="@{listener}" />
+
+        <include
+            android:id="@+id/layout_search"
+            layout="@layout/container_layout_search"
+            android:visibility="gone" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorBlack32"
+            android:background="@null"
             app:elevation="0dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_margin="10dp"
-                android:background="@color/colorWhite">
+                android:background="@color/colorWhite"
+                app:cardElevation="3dp">
 
                 <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:defaultQueryHint="@string/search"
                     app:iconifiedByDefault="false"
                     app:queryHint="@string/search"
-                    app:searchIcon="@null"
-                    app:voiceIcon="@drawable/ic_voice" />
+                    app:searchHintIcon="@null"
+                    app:searchIcon="@null" />
 
             </androidx.cardview.widget.CardView>
-
         </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:overScrollMode="never"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorBlack32"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:orientation="horizontal"
-                    android:overScrollMode="never"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_game"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:nestedScrollingEnabled="true"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:text="@string/hello_main_activity"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="2" />
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <FrameLayout
-            android:id="@+id/layout_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_margin="@dimen/fab_margin"
-                android:onClick="@{() -> listener.onClickCart()}"
-                android:tint="@color/colorWhite"
-                app:elevation="5dp"
-                app:srcCompat="@drawable/ic_cart" />
-
-            <TextView
-                android:id="@+id/text_count"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/background_circular_white"
-                android:elevation="5dp"
-                android:textAlignment="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                tools:ignore="SmallSp"
-                tools:text="3" />
-        </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

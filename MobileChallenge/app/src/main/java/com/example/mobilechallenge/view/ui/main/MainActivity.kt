@@ -3,10 +3,12 @@ package com.example.mobilechallenge.view.ui.main
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +23,7 @@ import com.example.mobilechallenge.view.ui.browser.BrowserActivity
 import com.example.mobilechallenge.view.ui.detail.DetailActivity
 import com.example.mobilechallenge.view.ui.shopping_cart.ShoppingCartActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.container_layout_default.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
@@ -35,10 +38,11 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         super.onCreate(savedInstanceState)
         MyApplication.getAppComponent().inject(this)
 
-        initDataBinding()
         initViewModel()
+        initDataBinding()
         initBannerAdapter()
         initGameAdapter()
+        setupSearchView()
     }
 
     override fun initViewModel() {
@@ -50,7 +54,9 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
             this,
             R.layout.activity_main
         )
+        binding.lifecycleOwner = this
         binding.listener = this
+        binding.viewModel = viewModel
     }
 
     override fun initBannerAdapter() {
@@ -78,10 +84,37 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         }
     }
 
+    fun setupSearchView() {
+
+        search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                if (newText?.length!! > 0) {
+                    layout_search.visibility = View.VISIBLE
+                    //viewModel.setVisibilityListSearch(true)
+                } else {
+                    layout_search.visibility = View.GONE
+                  //  viewModel.setVisibilityListSearch(false)
+                }
+
+         //       Log.d("JUF", newText)
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+        })
+        search_view.setOnQueryTextFocusChangeListener { _, hasFocus ->
+
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         observableViewModel()
     }
+
 
     override fun observableViewModel() {
         viewModel.getBanners().observe(this, Observer { banners ->
