@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="obj"
+            type="com.example.mobilechallenge.data.models.Game" />
+
+        <variable
+            name="handler"
+            type="com.example.mobilechallenge.view.adapters.HandlerAdapter" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/item_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:onClick="@{(view) -> handler.onClickItem(view, position)}"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{obj.title}"
+            android:textSize="18sp"
+            tools:text="Título" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                app:currencyStrike="@{obj.price}"
+                tools:text="R$ 500,00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:currency="@{(obj.price - obj.discount)}"
+                tools:text="R$ 400,00" />
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

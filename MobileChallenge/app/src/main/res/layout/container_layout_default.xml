@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.example.mobilechallenge.view.ui.main.MainViewModel" />
+
         <variable
             name="listener"
             type="com.example.mobilechallenge.view.ui.main.MainBase" />
@@ -21,32 +27,44 @@
             android:fillViewport="true"
             android:overScrollMode="never">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_banner"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:orientation="horizontal"
-                    android:overScrollMode="never"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_game"
-                    android:layout_width="match_parent"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_game"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:nestedScrollingEnabled="true"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        android:padding="8dp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:nestedScrollingEnabled="true"
-                    android:orientation="vertical"
-                    android:padding="8dp"
-                    android:text="@string/hello_main_activity"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="2" />
-            </LinearLayout>
+                    android:layout_centerInParent="true"
+                    android:indeterminateTint="@color/colorPrimary"
+                    android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}" />
+            </RelativeLayout>
         </androidx.core.widget.NestedScrollView>
 
         <FrameLayout
@@ -74,10 +92,12 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/background_circular_white"
                 android:elevation="5dp"
+                android:text="@{viewModel.itemsCart.size()+``}"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:textSize="10sp"
                 android:textStyle="bold"
+                android:visibility="@{viewModel.itemsCart.size() > 0 ? View.VISIBLE : View.GONE}"
                 tools:ignore="SmallSp"
                 tools:text="3" />
         </FrameLayout>

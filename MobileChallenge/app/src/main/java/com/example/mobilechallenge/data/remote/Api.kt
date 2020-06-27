@@ -5,10 +5,7 @@ import com.example.mobilechallenge.data.models.Game
 import com.google.gson.JsonObject
 import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface Api {
 
@@ -20,6 +17,9 @@ interface Api {
 
     @GET("games/{id}")
     fun getGameById(@Path("id") id: Int): Single<Game>
+
+    @GET("games/search")
+    fun searchGames(@Query("term") title: String): Single<List<Game>>
 
     @POST("checkout")
     fun checkout(@Body data: JsonObject): Completable

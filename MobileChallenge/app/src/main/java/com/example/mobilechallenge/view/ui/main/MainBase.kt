@@ -13,4 +13,6 @@ interface MainBase {
     fun observableViewModel()
 
     fun onClickCart()
+
+    fun showMessageSearch(message: String)
 }

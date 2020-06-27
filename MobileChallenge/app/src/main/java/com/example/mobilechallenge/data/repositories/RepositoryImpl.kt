@@ -58,6 +58,36 @@ class RepositoryImpl(
         composite.add(disposable)
     }
 
+    override fun searchGames(
+        title: String,
+        success: (List<Game>) -> Unit,
+        failed: (Throwable) -> Unit
+    ) {
+        val disposable = api.searchGames(title)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ res ->
+                success(res)
+            }, { error ->
+                failed(error)
+            })
+
+        composite.add(disposable)
+    }
+
+    override fun checkout(data: JsonObject, success: () -> Unit, failed: (Throwable) -> Unit) {
+        val disposable = api.checkout(data)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                success()
+            }, { error ->
+                failed(error)
+            })
+        composite.add(disposable)
+    }
+
+
     override suspend fun insertItemCart(itemCart: ItemCart) {
         dao.insertItemCar(itemCart)
     }
@@ -80,18 +110,6 @@ class RepositoryImpl(
 
     override fun getAllItemsCart(): LiveData<List<ItemCart>> {
         return dao.getAllItemsCart()
-    }
-
-    override fun checkout(data: JsonObject, success: () -> Unit, failed: (Throwable) -> Unit) {
-        val disposable = api.checkout(data)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                success()
-            }, { error ->
-                failed(error)
-            })
-        composite.add(disposable)
     }
 
     override fun clearCompositeDisposable() {

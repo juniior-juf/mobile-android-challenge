@@ -14,6 +14,10 @@ interface Repository {
 
     fun getGameById(id: Int, success: (Game) -> Unit, failed: (Throwable) -> Unit)
 
+    fun searchGames(title:String, success: (List<Game>) -> Unit, failed: (Throwable) -> Unit)
+
+    fun checkout(data: JsonObject, success: () -> Unit, failed: (Throwable) -> Unit)
+
     suspend fun insertItemCart(itemCart: ItemCart)
 
     suspend fun updateItemCart(amount: Int, id: Int)
@@ -25,10 +29,6 @@ interface Repository {
     suspend fun getItemCart(id: Int): ItemCart?
 
     fun getAllItemsCart(): LiveData<List<ItemCart>>
-
-    fun checkout(data: JsonObject, success: () -> Unit, failed: (Throwable) -> Unit)
-
-
 
     fun clearCompositeDisposable()
 }

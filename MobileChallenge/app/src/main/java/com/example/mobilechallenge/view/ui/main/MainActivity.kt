@@ -3,7 +3,6 @@ package com.example.mobilechallenge.view.ui.main
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -12,18 +11,22 @@ import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobilechallenge.MyApplication
 import com.example.mobilechallenge.R
 import com.example.mobilechallenge.databinding.ActivityMainBinding
 import com.example.mobilechallenge.view.adapters.BannerAdapter
 import com.example.mobilechallenge.view.adapters.GameAdapter
 import com.example.mobilechallenge.view.adapters.HandlerAdapter
+import com.example.mobilechallenge.view.adapters.SearchAdapter
 import com.example.mobilechallenge.view.factory.DefaultFactory
 import com.example.mobilechallenge.view.ui.browser.BrowserActivity
 import com.example.mobilechallenge.view.ui.detail.DetailActivity
 import com.example.mobilechallenge.view.ui.shopping_cart.ShoppingCartActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.container_layout_default.*
+import kotlinx.android.synthetic.main.container_layout_search.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
     lateinit var viewModel: MainViewModel
     private lateinit var bannerAdapter: BannerAdapter
     private lateinit var gameAdapter: GameAdapter
+    private lateinit var searchAdapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +46,13 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         initDataBinding()
         initBannerAdapter()
         initGameAdapter()
+        initSearchAdapter()
         setupSearchView()
     }
 
     override fun initViewModel() {
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+        viewModel.setListener(this)
     }
 
     override fun initDataBinding() {
@@ -67,6 +73,20 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         recycler_banner.adapter = bannerAdapter
     }
 
+    fun initSearchAdapter() {
+        searchAdapter = SearchAdapter()
+        searchAdapter.setHandler(this)
+
+        recycler_search.hasFixedSize()
+        recycler_search.addItemDecoration(
+            DividerItemDecoration(
+                recycler_search.context,
+                LinearLayoutManager.VERTICAL
+            )
+        )
+        recycler_search.adapter = searchAdapter
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun initGameAdapter() {
         gameAdapter = GameAdapter()
@@ -84,20 +104,13 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         }
     }
 
-    fun setupSearchView() {
-
+    private fun setupSearchView() {
         search_view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
-
-                if (newText?.length!! > 0) {
-                    layout_search.visibility = View.VISIBLE
-                    //viewModel.setVisibilityListSearch(true)
-                } else {
-                    layout_search.visibility = View.GONE
-                  //  viewModel.setVisibilityListSearch(false)
+                if (newText != null) {
+                    layout_search.visibility = if (newText.isNotEmpty()) View.VISIBLE else View.GONE
+                    if (newText.isNotEmpty()) viewModel.searchGames(newText)
                 }
-
-         //       Log.d("JUF", newText)
                 return true
             }
 
@@ -105,9 +118,6 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
                 return true
             }
         })
-        search_view.setOnQueryTextFocusChangeListener { _, hasFocus ->
-
-        }
     }
 
     override fun onStart() {
@@ -115,23 +125,17 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         observableViewModel()
     }
 
-
     override fun observableViewModel() {
         viewModel.getBanners().observe(this, Observer { banners ->
             bannerAdapter.setItemList(banners)
         })
 
-        viewModel.getCountItemsInCart().observe(this, Observer { itemsCart ->
-            if (itemsCart.isEmpty()) {
-                text_count.visibility = View.GONE
-            } else {
-                text_count.text = itemsCart.size.toString()
-                text_count.visibility = View.VISIBLE
-            }
-        })
-
         viewModel.getGames().observe(this, Observer { games ->
             gameAdapter.setItemList(games)
+        })
+
+        viewModel.getListSearchGames().observe(this, Observer { games ->
+            searchAdapter.setItemList(games)
         })
     }
 
@@ -141,21 +145,32 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
 
     override fun onClickItem(view: View, position: Int) {
         when (view.id) {
-            R.id.card_banner -> navigateToBrowserScreen(position)
-            R.id.card_game -> navigateToDetailScreen(position)
+            R.id.card_banner -> {
+                navigateToBrowserScreen(viewModel.getBanners().value!![position].url)
+            }
+            R.id.card_game -> {
+                navigateToDetailScreen(viewModel.getGames().value!![position].id)
+            }
+            R.id.item_search -> {
+                navigateToDetailScreen(viewModel.getListSearchGames().value!![position].id)
+            }
             else -> Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun navigateToBrowserScreen(position: Int) {
+    private fun navigateToBrowserScreen(url: String) {
         val intent = Intent(this, BrowserActivity::class.java)
-        intent.putExtra("url", viewModel.getBanners().value?.get(position)?.url)
+        intent.putExtra("url", url)
         startActivity(intent)
     }
 
-    private fun navigateToDetailScreen(position: Int) {
+    private fun navigateToDetailScreen(id: Int) {
         val intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra("id", viewModel.getGames().value?.get(position)?.id)
+        intent.putExtra("id", id)
         startActivity(intent)
+    }
+
+    override fun showMessageSearch(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

@@ -24,12 +24,14 @@
 
         <include
             layout="@layout/container_layout_default"
+            app:viewModel="@{viewModel}"
             app:listener="@{listener}" />
 
         <include
             android:id="@+id/layout_search"
             layout="@layout/container_layout_search"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:viewModel="@{viewModel}" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
