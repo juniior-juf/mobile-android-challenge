@@ -9,23 +9,21 @@ import com.example.mobilechallenge.data.repositories.Repository
 
 class MainViewModel(@NonNull private val repo: Repository) : ViewModel() {
 
-    private lateinit var listener: MainBase
+    private lateinit var listener: MainListener
 
     private var banners = MutableLiveData<List<Banner>>()
     private var games = MutableLiveData<List<Game>>()
-    private var listSearchGames = MutableLiveData<List<Game>>()
-    private var itemsCart = repo.getAllItemsCart()
+    private var gamesSearchList = MutableLiveData<List<Game>>()
+    private var itemsCount = repo.getItemsCount()
+
     val loading = MutableLiveData<Boolean>().apply { postValue(true) }
 
     init {
-        banners.value = emptyList()
-        games.value = emptyList()
-        listSearchGames.value = emptyList()
         fetchAllBanners()
         fetchAllGames()
     }
 
-    fun setListener(listener: MainBase) {
+    fun setListener(listener: MainListener) {
         this.listener = listener
     }
 
@@ -33,9 +31,9 @@ class MainViewModel(@NonNull private val repo: Repository) : ViewModel() {
 
     fun getGames() = games
 
-    fun getListSearchGames() = listSearchGames
+    fun getListSearchGames() = gamesSearchList
 
-    fun getItemsCart() = itemsCart
+    fun getItemsCount() = itemsCount
 
     fun fetchAllBanners() {
         repo.getAllBanners({ res ->
@@ -59,12 +57,17 @@ class MainViewModel(@NonNull private val repo: Repository) : ViewModel() {
 
     fun searchGames(title: String) {
         repo.searchGames(title, { res ->
-            listSearchGames.value = res
+            gamesSearchList.value = res
             if (res.isEmpty())
                 listener.showMessageSearch("Nenhum game encontrado")
         }, { error ->
             error.printStackTrace()
-            listener.showMessageSearch("Ocorreu algum problema durante a busca dos games.\nTente novamente!")
+            listener.showMessageSearch("Ocorreu um problema durante a busca dos games.\nTente novamente!")
         })
+    }
+
+    override fun onCleared() {
+        repo.clearCompositeDisposable()
+        super.onCleared()
     }
 }

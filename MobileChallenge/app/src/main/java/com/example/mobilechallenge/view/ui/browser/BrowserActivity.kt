@@ -9,7 +9,7 @@ import android.webkit.WebView
 import com.example.mobilechallenge.R
 import kotlinx.android.synthetic.main.activity_browser.*
 
-class BrowserActivity : AppCompatActivity(), BrowserBase {
+class BrowserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_browser)
@@ -24,7 +24,7 @@ class BrowserActivity : AppCompatActivity(), BrowserBase {
             restoreWebView(savedInstanceState)
     }
 
-    override fun initWebView(url: String?) {
+    private fun initWebView(url: String?) {
         web_view.loadUrl(url)
         web_view.webChromeClient = webClient
     }
@@ -38,7 +38,7 @@ class BrowserActivity : AppCompatActivity(), BrowserBase {
         }
     }
 
-    override fun restoreWebView(savedInstanceState: Bundle?) {
+    private fun restoreWebView(savedInstanceState: Bundle?) {
         web_view.restoreState(savedInstanceState?.getBundle("webViewState"))
         web_view.visibility = View.VISIBLE
         progress_circular.visibility = View.GONE

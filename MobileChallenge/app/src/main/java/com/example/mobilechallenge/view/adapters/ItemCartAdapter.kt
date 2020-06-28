@@ -3,18 +3,13 @@ package com.example.mobilechallenge.view.adapters
 import com.example.mobilechallenge.R
 import com.example.mobilechallenge.data.models.ItemCart
 
-class ItemCartAdapter : BaseAdapter() {
+class ItemCartAdapter(private val handler: HandlerAdapter) : BaseAdapter() {
 
     private var items = emptyList<ItemCart>()
-    private lateinit var handler: HandlerAdapter
-
+   
     fun setItemList(items: List<ItemCart>) {
         this.items = items
         notifyDataSetChanged()
-    }
-
-    fun setHandler(handler: HandlerAdapter) {
-        this.handler = handler
     }
 
     override fun getObjForPosition(position: Int): Any {

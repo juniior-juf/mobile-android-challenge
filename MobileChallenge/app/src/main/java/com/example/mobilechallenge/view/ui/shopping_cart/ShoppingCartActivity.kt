@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -27,7 +26,8 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartListener, HandlerA
     @Inject
     lateinit var factory: DefaultFactory
     private lateinit var viewModel: ShoppingCarViewModel
-    private lateinit var adapter: ItemCartAdapter
+
+    private val adapter: ItemCartAdapter by lazy { ItemCartAdapter(this) }
     private var dialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +37,6 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartListener, HandlerA
 
         initViewModel()
         initDataBinding()
-        initAdapter()
         setupToolbar()
         setupRecycler()
     }
@@ -53,11 +52,6 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartListener, HandlerA
             R.layout.activity_shopping_cart
         )
         binding.viewModel = viewModel
-    }
-
-    private fun initAdapter() {
-        adapter = ItemCartAdapter()
-        adapter.setHandler(this)
     }
 
     private fun setupToolbar() {
@@ -91,8 +85,8 @@ class ShoppingCartActivity : AppCompatActivity(), ShoppingCartListener, HandlerA
 
     override fun onClickItem(view: View, position: Int) {
         when (view.id) {
-            R.id.imv_add -> viewModel.add(position)
-            R.id.imv_decrease -> viewModel.decrease(position)
+            R.id.imv_add -> viewModel.increaseItemQuantity(position)
+            R.id.imv_decrease -> viewModel.decreaseItemQuantity(position)
             R.id.imv_remove -> viewModel.removeItem(position)
         }
     }

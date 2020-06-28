@@ -9,8 +9,8 @@ import dagger.Provides
 class FactoryModule {
 
     @Provides
-    fun provideBannerFactory(repositoryImpl: RepositoryImpl): DefaultFactory {
-        return DefaultFactory(repositoryImpl)
+    fun provideBannerFactory(repository: RepositoryImpl): DefaultFactory {
+        return DefaultFactory(repository)
     }
 
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Paint
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -16,7 +15,6 @@ import com.squareup.picasso.Picasso
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.util.*
-import javax.inject.Inject
 
 class DataBindingAdapter {
 

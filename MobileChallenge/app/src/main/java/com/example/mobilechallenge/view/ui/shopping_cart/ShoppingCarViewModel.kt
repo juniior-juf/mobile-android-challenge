@@ -13,6 +13,7 @@ class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() 
 
     companion object {
         private const val PRICE_MINIMUM_FREIGHT_FREE = 250
+        private const val FREIGHT_PRICE_PER_ITEM = 10
     }
 
     private lateinit var listener: ShoppingCartListener
@@ -31,15 +32,15 @@ class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() 
 
     fun getShoppingCart() = shoppingCart
 
-    fun add(position: Int) {
+    fun increaseItemQuantity(position: Int) {
         val item = itemsCart.value!![position]
-        val newAmount = item.amount + 1
+        val newAmount = item.amount.plus(1)
         viewModelScope.launch { repo.updateItemCart(newAmount, item.id) }
     }
 
-    fun decrease(position: Int) {
+    fun decreaseItemQuantity(position: Int) {
         val item = itemsCart.value!![position]
-        val newAmount = item.amount - 1
+        val newAmount = item.amount.minus(1)
         if (newAmount > 0)
             viewModelScope.launch { repo.updateItemCart(newAmount, item.id) }
     }
@@ -59,9 +60,9 @@ class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() 
 
         itemsCart.value?.forEach { item ->
             initialPrice += calculateInitialPrice(item.amount, item.price)
-            finalPrice += calculatePriceFinal(item.amount, item.price, item.discount)
+            finalPrice += calculateFinalPrice(item.amount, item.price, item.discount)
             totalItems += item.amount
-            freightPrice += (item.amount * 10)
+            freightPrice += (item.amount * FREIGHT_PRICE_PER_ITEM)
         }
 
         shoppingCart.value?.initialPrice = initialPrice
@@ -80,7 +81,7 @@ class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() 
         return amount * price
     }
 
-    private fun calculatePriceFinal(amount: Int, price: Int, discount: Int): Int {
+    private fun calculateFinalPrice(amount: Int, price: Int, discount: Int): Int {
         return amount * (price - discount)
     }
 
@@ -105,5 +106,10 @@ class ShoppingCarViewModel(@NonNull private val repo: Repository) : ViewModel() 
         viewModelScope.launch {
             repo.deleteAllItemsCart()
         }
+    }
+
+    override fun onCleared() {
+        repo.clearCompositeDisposable()
+        super.onCleared()
     }
 }

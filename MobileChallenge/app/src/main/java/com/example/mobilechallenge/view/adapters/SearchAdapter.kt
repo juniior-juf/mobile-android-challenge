@@ -3,18 +3,13 @@ package com.example.mobilechallenge.view.adapters
 import com.example.mobilechallenge.R
 import com.example.mobilechallenge.data.models.Game
 
-class SearchAdapter : BaseAdapter() {
+class SearchAdapter(private val handler: HandlerAdapter) : BaseAdapter() {
 
     private var games = emptyList<Game>()
-    private lateinit var handler: HandlerAdapter
 
     fun setItemList(games: List<Game>) {
         this.games = games
         notifyDataSetChanged()
-    }
-
-    fun setHandler(handler: HandlerAdapter) {
-        this.handler = handler
     }
 
     override fun getObjForPosition(position: Int): Any {

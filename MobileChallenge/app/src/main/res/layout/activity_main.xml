@@ -9,7 +9,7 @@
 
         <variable
             name="listener"
-            type="com.example.mobilechallenge.view.ui.main.MainBase" />
+            type="com.example.mobilechallenge.view.ui.main.MainListener" />
 
         <variable
             name="viewModel"

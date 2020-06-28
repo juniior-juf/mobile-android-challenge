@@ -20,15 +20,17 @@ interface Repository {
 
     suspend fun insertItemCart(itemCart: ItemCart)
 
+    suspend fun getItemCart(id: Int): ItemCart?
+
+    fun getItemsCount():LiveData<Int>
+
+    fun getAllItemsCart(): LiveData<List<ItemCart>>
+
     suspend fun updateItemCart(amount: Int, id: Int)
 
     suspend fun deleteItemCart(itemCart: ItemCart)
 
     suspend fun deleteAllItemsCart()
-
-    suspend fun getItemCart(id: Int): ItemCart?
-
-    fun getAllItemsCart(): LiveData<List<ItemCart>>
 
     fun clearCompositeDisposable()
 }

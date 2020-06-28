@@ -16,6 +16,7 @@ class DetailActivity : AppCompatActivity() {
 
     @Inject
     lateinit var factory: DefaultFactory
+
     private lateinit var viewModel: DetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

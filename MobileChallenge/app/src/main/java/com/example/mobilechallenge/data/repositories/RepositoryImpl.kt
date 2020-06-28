@@ -19,6 +19,8 @@ class RepositoryImpl(
 
     private val composite = CompositeDisposable()
 
+    // REQUEST API
+
     override fun getAllBanners(success: (List<Banner>) -> Unit, failed: (Throwable) -> Unit) {
         val disposable = api.getBanners()
             .subscribeOn(Schedulers.io())
@@ -87,9 +89,10 @@ class RepositoryImpl(
         composite.add(disposable)
     }
 
+    // DATA BASE LOCAL
 
     override suspend fun insertItemCart(itemCart: ItemCart) {
-        dao.insertItemCar(itemCart)
+        dao.insertItemCart(itemCart)
     }
 
     override suspend fun updateItemCart(amount: Int, id: Int) {
@@ -106,6 +109,10 @@ class RepositoryImpl(
 
     override suspend fun getItemCart(id: Int): ItemCart? {
         return dao.getItemCart(id)
+    }
+
+    override fun getItemsCount(): LiveData<Int> {
+        return dao.getItemsCount()
     }
 
     override fun getAllItemsCart(): LiveData<List<ItemCart>> {

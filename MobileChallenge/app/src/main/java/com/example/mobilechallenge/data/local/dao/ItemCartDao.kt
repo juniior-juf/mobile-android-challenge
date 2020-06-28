@@ -11,10 +11,7 @@ import com.example.mobilechallenge.data.models.ItemCart
 interface ItemCartDao {
 
     @Insert
-    suspend fun insertItemCar(itemCart: ItemCart)
-
-    @Query("UPDATE items_cart_table SET amount=:amount WHERE id=:id")
-    suspend fun updateAmountItems(amount: Int, id: Int)
+    suspend fun insertItemCart(itemCart: ItemCart)
 
     @Query("SELECT * FROM items_cart_table WHERE id=:id")
     suspend fun getItemCart(id: Int): ItemCart?
@@ -23,7 +20,10 @@ interface ItemCartDao {
     fun getAllItemsCart(): LiveData<List<ItemCart>>
 
     @Query("SELECT COUNT(id) FROM items_cart_table")
-    fun getCount(): LiveData<Int>
+    fun getItemsCount(): LiveData<Int>
+
+    @Query("UPDATE items_cart_table SET amount=:amount WHERE id=:id")
+    suspend fun updateAmountItems(amount: Int, id: Int)
 
     @Delete
     suspend fun deleteItemCart(itemCart: ItemCart)

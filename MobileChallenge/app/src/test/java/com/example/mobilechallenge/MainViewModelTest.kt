@@ -7,6 +7,7 @@ import com.example.mobilechallenge.data.models.Game
 import com.example.mobilechallenge.data.repositories.Repository
 import com.example.mobilechallenge.view.ui.main.MainViewModel
 import com.nhaarman.mockitokotlin2.argumentCaptor
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,6 +20,11 @@ class MainViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    @Before
+    fun setUp() {
+        MockitoAnnotations.initMocks(this)
+    }
+
     @Mock
     private lateinit var repository: Repository
 
@@ -30,11 +36,6 @@ class MainViewModelTest {
 
     @Mock
     val throwable = Throwable()
-
-    @Before
-    fun setUp() {
-        MockitoAnnotations.initMocks(this)
-    }
 
     private fun createViewModel(): MainViewModel {
         return MainViewModel(repository)

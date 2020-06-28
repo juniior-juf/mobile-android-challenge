@@ -4,7 +4,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilechallenge.BR
 
-
 class BaseViewHolder(private var binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(position: Int, obj: Any, handler: HandlerAdapter?) {

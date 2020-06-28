@@ -3,6 +3,7 @@ package com.example.mobilechallenge.view.ui.main
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
@@ -29,14 +30,19 @@ import kotlinx.android.synthetic.main.container_layout_default.*
 import kotlinx.android.synthetic.main.container_layout_search.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
+class MainActivity : AppCompatActivity(), MainListener, HandlerAdapter {
+
+    companion object {
+        private val TAG = this::class.java.name
+    }
 
     @Inject
     lateinit var factory: DefaultFactory
-    lateinit var viewModel: MainViewModel
-    private lateinit var bannerAdapter: BannerAdapter
-    private lateinit var gameAdapter: GameAdapter
-    private lateinit var searchAdapter: SearchAdapter
+    private lateinit var viewModel: MainViewModel
+
+    private val bannerAdapter: BannerAdapter by lazy { BannerAdapter(this) }
+    private val gameAdapter: GameAdapter by lazy { GameAdapter(this) }
+    private val searchAdapter: SearchAdapter by lazy { SearchAdapter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,18 +50,18 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
 
         initViewModel()
         initDataBinding()
-        initBannerAdapter()
-        initGameAdapter()
-        initSearchAdapter()
+        setupRecyclerBanner()
+        setupRecyclerGame()
+        setupRecyclerSearch()
         setupSearchView()
     }
 
-    override fun initViewModel() {
+    private fun initViewModel() {
         viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
         viewModel.setListener(this)
     }
 
-    override fun initDataBinding() {
+    private fun initDataBinding() {
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(
             this,
             R.layout.activity_main
@@ -65,43 +71,32 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         binding.viewModel = viewModel
     }
 
-    override fun initBannerAdapter() {
-        bannerAdapter = BannerAdapter()
-        bannerAdapter.setHandler(this)
-
+    private fun setupRecyclerBanner() {
         recycler_banner.hasFixedSize()
         recycler_banner.adapter = bannerAdapter
     }
 
-    fun initSearchAdapter() {
-        searchAdapter = SearchAdapter()
-        searchAdapter.setHandler(this)
-
+    private fun setupRecyclerSearch() {
         recycler_search.hasFixedSize()
         recycler_search.addItemDecoration(
-            DividerItemDecoration(
-                recycler_search.context,
-                LinearLayoutManager.VERTICAL
-            )
+            DividerItemDecoration(recycler_search.context, LinearLayoutManager.VERTICAL)
         )
         recycler_search.adapter = searchAdapter
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun initGameAdapter() {
-        gameAdapter = GameAdapter()
-        gameAdapter.setHandler(this)
-
+    private fun setupRecyclerGame() {
         recycler_game.hasFixedSize()
+        recycler_game.setOnTouchListener(onTouchListener)
         recycler_game.adapter = gameAdapter
-        recycler_game.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_MOVE) {
-                layout_fab.visibility = View.GONE
-            } else {
-                layout_fab.visibility = View.VISIBLE
-            }
-            false
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private val onTouchListener = View.OnTouchListener { _, event ->
+        layout_floating.visibility = when (event.action) {
+            MotionEvent.ACTION_MOVE -> View.GONE
+            else -> View.VISIBLE
         }
+        false
     }
 
     private fun setupSearchView() {
@@ -125,7 +120,7 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
         observableViewModel()
     }
 
-    override fun observableViewModel() {
+    private fun observableViewModel() {
         viewModel.getBanners().observe(this, Observer { banners ->
             bannerAdapter.setItemList(banners)
         })
@@ -154,7 +149,7 @@ class MainActivity : AppCompatActivity(), MainBase, HandlerAdapter {
             R.id.item_search -> {
                 navigateToDetailScreen(viewModel.getListSearchGames().value!![position].id)
             }
-            else -> Toast.makeText(this, "Invalid", Toast.LENGTH_SHORT).show()
+            else -> Log.w(TAG, "Invalid input")
         }
     }
 

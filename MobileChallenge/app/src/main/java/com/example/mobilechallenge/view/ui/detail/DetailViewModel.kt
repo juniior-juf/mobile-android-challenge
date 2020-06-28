@@ -7,27 +7,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mobilechallenge.data.models.Game
 import com.example.mobilechallenge.data.models.ItemCart
-import com.example.mobilechallenge.data.repositories.RepositoryImpl
+import com.example.mobilechallenge.data.repositories.Repository
 import kotlinx.coroutines.launch
 
-class DetailViewModel(@NonNull private val repo: RepositoryImpl) : ViewModel() {
+class DetailViewModel(@NonNull private val repo: Repository) : ViewModel() {
 
     private val game = MutableLiveData<Game>()
-    val inCart = MutableLiveData<Boolean>()
+
+    val inCart = MutableLiveData<Boolean>().apply { postValue(false) }
 
     init {
         game.value = Game()
-        inCart.value = false
     }
 
     fun setId(id: Int) {
-        fetchGame(id)
-        fetchItemCart(id)
+        fetchGameDetail(id)
+        verifyItemContainsInCart(id)
     }
 
     fun getGame() = game
 
-    private fun fetchGame(id: Int) {
+    fun fetchGameDetail(id: Int) {
         repo.getGameById(id, { res ->
             game.value = res
         }, { error ->
@@ -35,8 +35,16 @@ class DetailViewModel(@NonNull private val repo: RepositoryImpl) : ViewModel() {
         })
     }
 
+    fun verifyItemContainsInCart(id: Int) {
+        viewModelScope.launch {
+            val item = repo.getItemCart(id)
+            inCart.value = item != null
+        }
+    }
+
     fun onClickInsertOrDeleteItem() {
         if (game.value!!.id != 0) {
+
             val item = game.value?.let {
                 ItemCart(it.id, it.title, it.image, it.price, it.discount, 1)
             } as ItemCart
@@ -45,7 +53,7 @@ class DetailViewModel(@NonNull private val repo: RepositoryImpl) : ViewModel() {
         }
     }
 
-    private fun insertOrDeleteItem(item: ItemCart) {
+    fun insertOrDeleteItem(item: ItemCart) {
         viewModelScope.launch {
             try {
                 repo.insertItemCart(item)
@@ -57,10 +65,8 @@ class DetailViewModel(@NonNull private val repo: RepositoryImpl) : ViewModel() {
         }
     }
 
-    private fun fetchItemCart(id: Int) {
-        viewModelScope.launch {
-            val item = repo.getItemCart(id)
-            inCart.value = item != null
-        }
+    override fun onCleared() {
+        repo.clearCompositeDisposable()
+        super.onCleared()
     }
 }
